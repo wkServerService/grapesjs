@@ -838,8 +838,14 @@ require(['src/config/require-config.js'], function () {
                             },{ id: 'insert-hello',		className: 'fa fa-code',			command: 'insert-custom',attributes	: { title: 'Some variable' },
                                 options:  {  content: {
                                     type:'div',
-                                    content:'hello world',
+                                    content:'<span>hello world</span><ul><li>hello china</li><li>hello shandong</li></ul>',
                                     style:{'padding':'7px 7px 7px 7px',"display":'inline-block'},
+                                    attributes:{
+                                        "data-class":"custom-comp",
+                                        "data-type":'slide',
+                                        "data-id":'slide',
+                                        /*"ondblclick":'showModal()',*/
+                                    }
                                 }, terminateAfterInsert: true, },
                             },
                             { id: 'var',		className: 'fa fa-hashtag',			command: 'insert-custom',attributes	: { title: 'Some variable' },

@@ -9,6 +9,35 @@
 	</head>
 	<body>
 		<div id="wte-app"></div>
+		<script data-main="src/demo" src="vendor/jquery/jquery.js"></script>
 		<script data-main="src/demo" src="vendor/require/require.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#wte-app').on('dblclick','div[data-class="custom-comp"]', function (event) {
+				showModal(this);
+				event.preventDefault();
+				return false;
+			});
+		});
+			function  showModal(obj) {
+				//event.preventDefault();
+				var modelObj = null;
+				for(var key in obj){
+					if(modelObj!=null){
+						break;
+					}
+					modelObj = obj[key];
+				}
+				if(modelObj == null){
+					return false;
+				}
+				var mo_type = typeof modelObj;
+				var m_type = typeof modelObj.model;
+				var mc_type = typeof modelObj.modelComp;
+				alert('id:'+$(obj).attr('id'));
+				alert('data-type:'+$(obj).attr('data-type'));
+				return false;
+			}
+	</script>
 	</body>
 </html>
