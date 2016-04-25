@@ -31,11 +31,17 @@
 				if(modelObj == null){
 					return false;
 				}
-				var mo_type = typeof modelObj;
+				/*var mo_type = typeof modelObj;
 				var m_type = typeof modelObj.model;
-				var mc_type = typeof modelObj.modelComp;
+				var mc_type = typeof modelObj.modelComp;*/
 				alert('id:'+$(obj).attr('id'));
-				alert('data-type:'+$(obj).attr('data-type'));
+				alert('data-class:'+$(obj).data('class'));
+				alert('data-type:'+$(obj).data('type'));
+				$(obj).attr('data-label','text-200');
+				modelObj.model.attributes.attributes['data-label']='text-200';
+				alert('data-label:'+$(obj).data('label'));
+				//modelObj.model.trigger('change:attributes');
+				//modelObj.modelComp.trigger('change:attributes');
 				return false;
 			}
 	</script>
