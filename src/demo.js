@@ -6,7 +6,7 @@ require(['src/config/require-config.js'], function () {
 
                 container: '#wte-app',
 
-                storageType: 'remote',
+                storageType: 'local',
                 storageManager: {
                     remoteStorage: {
                         urlStore: 'http://test.localhost/wte/index.php',
@@ -830,12 +830,12 @@ require(['src/config/require-config.js'], function () {
                                 command: 'image-comp',
                                 attributes: {title: 'Create image element'},
                             },
-                            {
+                            /*{
                                 id: 'insert',
                                 className: 'fa fa-file',
                                 command: 'insert-comp',
                                 attributes: {title: 'insert components'},
-                            },{ id: 'insert-hello',		className: 'fa fa-code',			command: 'insert-custom',attributes	: { title: 'Some variable' },
+                            }*/,{ id: 'insert-hello',		className: 'fa fa-newspaper-o',			command: 'insert-custom',attributes	: { title: 'Some variable' },
                                 options:  {  content: {
                                     type:'div',
                                     content:'<span>hello world</span><ul><li>hello china</li><li>hello shandong</li></ul>',
@@ -848,9 +848,21 @@ require(['src/config/require-config.js'], function () {
                                     }
                                 }, terminateAfterInsert: true, },
                             },
-                            { id: 'var',		className: 'fa fa-hashtag',			command: 'insert-custom',attributes	: { title: 'Some variable' },
+                            { id: 'insert-block',		className: 'fa fa-object-group',			command: 'insert-block',attributes	: { title: 'Some variable' },
+                                options:  {  content: {
+                                    "data-class":"custom-comp",
+                                    type:'block',
+                                    content:'<ul><li>hello china</li><li>hello shandong</li></ul>',
+                                    style:{'padding':'7px 7px 7px 7px',"display":'inline-block'},
+                                    attributes:{
+                                        "data-type":'slide',
+                                        "data-id":'slide'
+                                    }
+                                }, terminateAfterInsert: true, },
+                            },
+                            /*{ id: 'var',		className: 'fa fa-hashtag',			command: 'insert-custom',attributes	: { title: 'Some variable' },
                              options:  {  content: '{{ VAR11 }}', terminateAfterInsert: true, },
-                             },
+                             },*/
                         ],
                     }, {
                         id: 'options',

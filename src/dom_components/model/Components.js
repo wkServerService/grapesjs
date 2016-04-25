@@ -27,6 +27,11 @@ define([ 'backbone', 'require'],
 					    		this.mComponentImage	= require("./ComponentImage");
 							model	= new this.mComponentImage(attrs, options);
 							break;
+						case 'block':
+							if(!this.mComponentBlock)
+								this.mComponentBlock	= require("./ComponentBlock");
+							model	= new this.mComponentBlock(attrs, options);
+							break;
 
 						default:
 							if(!this.mComponent)

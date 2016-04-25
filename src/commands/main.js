@@ -40,6 +40,7 @@ define(function(require) {
 		this.defaultCommands['sw-visibility']	= require('./view/SwitchVisibility');
 		this.defaultCommands['open-layers']		= require('./view/OpenLayers');
 		this.defaultCommands['insert-comp']			= require('./view/InsertComponent');
+		this.defaultCommands['insert-block']			= require('./view/InsertBlock');
 		this.defaultCommands['open-sm']			= require('./view/OpenStyleManager');
 
 		this.config.model 		= this.config.em.get('Canvas');

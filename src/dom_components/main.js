@@ -12,9 +12,11 @@ define(function(require) {
 			Component			= require('./model/Component'),
 			ComponentText		= require('./model/ComponentText'),
 			ComponentImage		= require('./model/ComponentImage'),
+			ComponentBlock		= require('./model/ComponentBlock'),
 			ComponentView		= require('./view/ComponentView'),
 			ComponentImageView	= require('./view/ComponentImageView'),
-			ComponentTextView	= require('./view/ComponentTextView');
+			ComponentTextView	= require('./view/ComponentTextView'),
+			ComponentBlockView	= require('./view/ComponentBlockView');
 
 	  // Set default options
 		for (var name in defaults) {
