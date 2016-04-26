@@ -2,6 +2,7 @@
 .settings/
 .sass-cache/
 .project
+.idea/
 npm-debug.log
 style/.sass-cache/
 grapes.sublime-project
