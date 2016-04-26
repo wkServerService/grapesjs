@@ -848,7 +848,10 @@ require(['src/config/require-config.js'], function () {
                                     }
                                 }, terminateAfterInsert: true, },
                             },
-                            { id: 'insert-block',		className: 'fa fa-object-group',			command: 'insert-block',attributes	: { title: 'Some variable' },
+                            { id: 'insert-block',
+                                className: 'fa fa-object-group',
+                                command: 'insert-block',
+                                attributes	: { title: 'Insert Block' },
                                 options:  {  content: {
                                     "data-class":"custom-comp",
                                     type:'block',

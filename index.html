@@ -10,6 +10,13 @@
 	<body>
 		<div id="wte-app"></div>
 		<script data-main="src/demo" src="vendor/jquery/jquery.js"></script>
+		<script type="text/javascript">
+			var BlockHook = {
+				"dblclick" : function (obj, e) {
+					obj.openModal(e);
+				}
+			};
+		</script>
 		<script data-main="src/demo" src="vendor/require/require.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {

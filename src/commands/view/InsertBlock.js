@@ -61,7 +61,8 @@ define(['backbone', './SelectPosition'],
 			 * @return 	void
 			 * */
 			afterInsert: function(model){
-				model.trigger('dblclick');
+				var event = jQuery.Event( "dblclick" );
+				model.trigger('dblclick',event);
 				if(this.sender)
 					this.sender.set('active', false);
 			},

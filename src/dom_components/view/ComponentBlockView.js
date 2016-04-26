@@ -9,20 +9,21 @@ define(['backbone', './ComponentView'],
 		tagName		: 'div',
 
 		events		: {
-				'dblclick' 	: 'openModal',
+				'dblclick' 	: 'eventHandle',
 		},
 
 		initialize: function(o){
 			ComponentView.prototype.initialize.apply(this, arguments);
-			//this.listenTo( this.model, 'change:src', 	this.updateSrc);
-			this.listenTo( this.model, 'dblclick', 		this.openModal);
-			this.classEmpty		= this.config.stylePrefix + 'image-placeholder ' + this.config.imageCompClass;
-
-			if(!this.model.get('src'))
-				this.$el.attr('class', this.classEmpty);
-
+			this.listenTo(this.model, 'dblclick', this.eventHandle);
 			if(this.config.modal)
 				this.modal		= this.config.modal;
+		},
+
+		eventHandle: function (e) {
+			var f = BlockHook[e.type];
+			if (f) {
+				f(this, e);
+			}
 		},
 
 		/**
@@ -43,15 +44,10 @@ define(['backbone', './ComponentView'],
 		openModal: function(e){
 			var that	= this;
 			if(this.modal){
-				this.modal.setTitle('Select image');
+				this.modal.setTitle('New Block');
+				this.modal.setContent('hello world');
 				this.modal.show();
 			}
-		},
-
-		render: function() {
-			this.updateAttributes();
-			this.updateClasses();
-			return this;
 		},
 	});
 });
