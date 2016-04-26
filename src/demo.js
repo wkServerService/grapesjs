@@ -852,15 +852,16 @@ require(['src/config/require-config.js'], function () {
                                 className: 'fa fa-object-group',
                                 command: 'insert-block',
                                 attributes	: { title: 'Insert Block' },
-                                options:  {  content: {
-                                    "data-class":"custom-comp",
-                                    type:'block',
-                                    content:'<ul><li>hello china</li><li>hello shandong</li></ul>',
-                                    style:{'padding':'7px 7px 7px 7px',"display":'inline-block'},
-                                    attributes:{
-                                        "data-type":'slide',
-                                        "data-id":'slide'
-                                    }
+                                options:  {
+                                    content: {
+                                        "data-class": "custom-comp",
+                                        type: 'block',
+                                        content: '<ul><li>hello china</li><li>hello shandong</li></ul>',
+                                        style: {'padding': '7px 7px 7px 7px', "display": 'inline-block'},
+                                        attributes: {
+                                            "data-type": 'slide',
+                                            "data-id": 'slide'
+                                        }
                                 }, terminateAfterInsert: true, },
                             },
                             /*{ id: 'var',		className: 'fa fa-hashtag',			command: 'insert-custom',attributes	: { title: 'Some variable' },

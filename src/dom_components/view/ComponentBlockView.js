@@ -14,6 +14,7 @@ define(['backbone', './ComponentView'],
 
 		initialize: function(o){
 			ComponentView.prototype.initialize.apply(this, arguments);
+			this.listenTo(this.model, 'change:content', this.updateContent);
 			this.listenTo(this.model, 'dblclick', this.eventHandle);
 			if(this.config.modal)
 				this.modal		= this.config.modal;
@@ -33,6 +34,10 @@ define(['backbone', './ComponentView'],
 		 * */
 		updateSrc: function(){
 			this.$el.attr('src',this.model.get("src"));
+		},
+
+		updateContent: function () {
+			this.$el.html(this.model.get('content'));
 		},
 
 		/**

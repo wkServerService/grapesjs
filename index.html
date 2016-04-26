@@ -13,7 +13,8 @@
 		<script type="text/javascript">
 			var BlockHook = {
 				"dblclick" : function (obj, e) {
-					obj.openModal(e);
+					//obj.openModal(e);
+					obj.model.set('content','<span>helloworld</span>');
 				}
 			};
 		</script>
