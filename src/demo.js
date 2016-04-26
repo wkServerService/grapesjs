@@ -835,7 +835,7 @@ require(['src/config/require-config.js'], function () {
                                 className: 'fa fa-file',
                                 command: 'insert-comp',
                                 attributes: {title: 'insert components'},
-                            }*/,{ id: 'insert-hello',		className: 'fa fa-newspaper-o',			command: 'insert-custom',attributes	: { title: 'Some variable' },
+                            },*/{ id: 'insert-hello',		className: 'fa fa-newspaper-o',			command: 'insert-custom',attributes	: { title: 'Some variable' },
                                 options:  {  content: {
                                     type:'div',
                                     content:'<span>hello world</span><ul><li>hello china</li><li>hello shandong</li></ul>',

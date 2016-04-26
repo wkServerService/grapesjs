@@ -13,8 +13,14 @@
 		<script type="text/javascript">
 			var BlockHook = {
 				"dblclick" : function (obj, e) {
-					//obj.openModal(e);
-					obj.model.set('content','<span>helloworld</span>');
+					obj.openModal(e);
+					if(confirm("Change?")){
+						if(obj.model.get('content') == '<span>hello world!</span>') {
+							obj.model.set('content', '<ul><li>hello china</li><li>hello shandong</li></ul>');
+						}else{
+							obj.model.set('content', '<span>hello world!</span>');
+						}
+					}
 				}
 			};
 		</script>
