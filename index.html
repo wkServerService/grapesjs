@@ -11,15 +11,42 @@
 		<div id="wte-app"></div>
 		<script data-main="src/demo" src="vendor/jquery/jquery.js"></script>
 		<script type="text/javascript">
+			var CompType = {
+				"pic":{
+					"url":"",
+					"dataType":"jsonp"
+				},
+				"slide":{
+					"url":"",
+					"dataType":"jsonp"
+				}
+			};
+			var Remote={
+				getCompData:function (comp) {
+					return {
+						"tpl":"<ul><li><span><%=title%></span><span><%=content%></span></li></ul>",
+						"data":[{"title":"hello world","content":"hello world!!!!!"}],
+						"dataUrl":""
+					}
+				}
+			};
 			var BlockHook = {
+				"currObj":null,
 				"dblclick" : function (obj, e) {
-					obj.openModal(e);
-					if(confirm("Change?")){
-						if(obj.model.get('content') == '<span>hello world!</span>') {
-							obj.model.set('content', '<ul><li>hello china</li><li>hello shandong</li></ul>');
-						}else{
-							obj.model.set('content', '<span>hello world!</span>');
-						}
+					BlockHook.currObj = obj;
+					var modalContent='<button onclick="return BlockHook.changeBlockContent();">Change</button>';
+					if(obj.modal){
+						obj.modal.setTitle('New Block');
+						obj.modal.setContent(modalContent);
+						obj.modal.show();
+					}
+				},
+				"changeBlockContent":function () {
+					var obj = BlockHook.currObj;
+					if(obj.model.get('content') == '<span>hello world!</span>') {
+						obj.model.set('content', '<ul><li>hello china</li><li>hello shandong</li></ul>');
+					}else{
+						obj.model.set('content', '<span>hello world!</span>');
 					}
 				}
 			};
