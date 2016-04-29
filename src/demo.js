@@ -848,21 +848,36 @@ require(['src/config/require-config.js'], function () {
                                     }
                                 }, terminateAfterInsert: true, },
                             },
-                            { id: 'insert-block',
-                                className: 'fa fa-object-group',
+                            { id: 'insert-slide',
+                                className: 'fa fa-file-video-o',
                                 command: 'insert-block',
                                 attributes	: { title: 'Insert Block' },
                                 options:  {
                                     content: {
                                         "data-class": "custom-comp",
                                         type: 'block',
-                                        content: '<ul><li>hello china</li><li>hello shandong</li></ul>',
+                                        content: '',
                                         style: {'padding': '7px 7px 7px 7px', "display": 'inline-block'},
                                         attributes: {
                                             "data-type": 'slide',
                                             "data-id": 'slide'
                                         }
                                 }, terminateAfterInsert: true, },
+                            },{ id: 'insert-pic',
+                                className: 'fa fa-file-image-o',
+                                command: 'insert-block',
+                                attributes	: { title: 'Insert Block' },
+                                options:  {
+                                    content: {
+                                        "data-class": "custom-comp",
+                                        type: 'block',
+                                        content: '',
+                                        style: {'padding': '7px 7px 7px 7px', "display": 'inline-block'},
+                                        attributes: {
+                                            "data-type": 'pic',
+                                            "data-id": 'pic'
+                                        }
+                                    }, terminateAfterInsert: true, },
                             },
                             /*{ id: 'var',		className: 'fa fa-hashtag',			command: 'insert-custom',attributes	: { title: 'Some variable' },
                              options:  {  content: '{{ VAR11 }}', terminateAfterInsert: true, },

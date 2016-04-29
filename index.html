@@ -23,10 +23,19 @@
 			};
 			var Remote={
 				getCompData:function (comp) {
-					return {
-						"tpl":"<ul><li><span><%=title%></span><span><%=content%></span></li></ul>",
-						"data":[{"title":"hello world","content":"hello world!!!!!"}],
-						"dataUrl":""
+					var compAttr = comp.model.get('attributes');
+					if(compAttr["data-type"] == "pic") {
+						return {
+							"tpl": "<ul><li><span>pic1</span><span>pic show</span></li><li><span>pic2</span><span>pic show</span></li></ul>",
+							"data": [{"title": "hello world", "content": "hello world!!!!!"}],
+							"dataUrl": ""
+						}
+					}else if(compAttr["data-type"] == "slide"){
+						return {
+							"tpl": "<ul><li><span>slide1</span><span>slide show</span></li><li><span>slide2</span><span>slide show</span></li></ul>",
+							"data": [{"title": "hello world", "content": "hello world!!!!!"}],
+							"dataUrl": ""
+						}
 					}
 				}
 			};
@@ -44,7 +53,8 @@
 				"changeBlockContent":function () {
 					var obj = BlockHook.currObj;
 					if(obj.model.get('content') == '<span>hello world!</span>') {
-						obj.model.set('content', '<ul><li>hello china</li><li>hello shandong</li></ul>');
+						var resp = Remote.getCompData(obj);
+						obj.model.set('content', resp.tpl);
 					}else{
 						obj.model.set('content', '<span>hello world!</span>');
 					}
