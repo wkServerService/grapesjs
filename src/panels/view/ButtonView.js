@@ -5,16 +5,15 @@ function(Backbone, require) {
 	 * */
 	return Backbone.View.extend({
 
-		tagName		: 'span',
-
-		events		: { 'click'	: 'clicked'	},
+		tagName: 'span',
 
 		initialize: function(o){
-			_.bindAll(this, 'startTimer', 'stopTimer', 'showButtons', 'hideButtons','closeOnKeyPress');
+			_.bindAll(this, 'startTimer', 'stopTimer', 'showButtons', 'hideButtons','closeOnKeyPress','onDrop');
 			var cls = this.model.get('className');
 			this.config = o.config || {};
 			this.em = this.config.em || {};
 			this.pfx = this.config.stylePrefix || '';
+			this.ppfx = this.config.pStylePrefix || '';
 			this.id = this.pfx + this.model.get('id');
 			this.activeCls = this.pfx + 'active';
 			this.btnsVisCls = this.pfx + 'visible';
@@ -33,6 +32,53 @@ function(Backbone, require) {
 
 			if(this.em && this.em.get)
 				this.commands	= this.em.get('Commands');
+
+			this.events = {};
+
+			if(this.model.get('dragDrop'))
+				this.events.mousedown = 'initDrag';
+			else
+				this.events.click = 'clicked';
+			this.delegateEvents();
+
+			if(this.em.Canvas){
+				this.canvasEl = this.em.Canvas.getElement();
+				this.sorter = new this.em.Utils.Sorter({
+					container: this.canvasEl,
+					containerSel: '*',
+					itemSel: '*',
+					pfx: this.ppfx,
+					onMove: this.onDrag,
+					onEndMove: this.onDrop,
+					direction: 'auto',
+					nested: 1,
+				});
+			}
+		},
+
+		/**
+		 * Init dragging element
+		 * @private
+		 */
+		initDrag: function(){
+			this.model.collection.deactivateAll(this.model.get('context'));
+			this.sorter.startSort(this.el);
+			this.sorter.setDropContent(this.model.get('options').content);
+			this.canvasEl.style.cursor = 'grabbing';
+		},
+
+		/**
+		 * During drag method
+		 * @private
+		 */
+		onDrag: function(e){},
+
+		/**
+		 * During drag method
+		 * @private
+		 */
+		onDrop: function(e){
+			this.canvasEl.style.cursor = 'default';
 		},
 
 		/**
@@ -141,6 +187,7 @@ function(Backbone, require) {
 		 * */
 		updateActive: function(){
 			var command	= null;
+			var editor = this.em && this.em.get ? this.em.get('Editor') : null;
 
 			if(this.commands)
 				command	= this.commands.get(this.model.get('command'));
@@ -154,7 +201,7 @@ function(Backbone, require) {
 					this.parentM.set('active', true, { silent: true }).trigger('checkActive');
 
 				if(command)
-					command.run(this.em, this.model);
+					command.run(editor, this.model, this.model.get('options'));
 			}else{
 				this.$el.removeClass(this.activeCls);
 
@@ -164,7 +211,7 @@ function(Backbone, require) {
 					this.parentM.set('active', false, { silent: true }).trigger('checkActive');
 
 				if(command)
-					command.stop(this.em, this.model);
+					command.stop(editor, this.model, this.model.get('options'));
 			}
 		},
 

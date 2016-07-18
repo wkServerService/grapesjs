@@ -5,12 +5,13 @@ define(function() {
 		 * */
 		return {
 
-			run: function(em, sender){
-				this.sender		= sender;
-				this.components = em.get('Canvas').getWrapper().get('components');
-				this.modal		= em.get('Modal') || null;
-				this.cm			= em.get('CodeManager') || null;
-				this.cssc = em.get('CssComposer') || null;
+			run: function(editor, sender){
+				this.sender = sender;
+				this.components = editor.DomComponents.getComponents();
+				this.modal = editor.Dialog || null;
+				this.cm = editor.CodeManager || null;
+				this.cssc = editor.CssComposer || null;
+				this.protCss = editor.Config.protectedCss;
 				this.enable();
 			},
 
@@ -26,7 +27,7 @@ define(function() {
 			buildEditor: function(codeName, theme, label)
 			{
 				if(!this.codeMirror)
-					this.codeMirror		= this.cm.getEditor('CodeMirror');
+					this.codeMirror		= this.cm.getViewer('CodeMirror');
 
 				var $input 		= $('<textarea>'),
 
@@ -63,9 +64,9 @@ define(function() {
 					this.modal.setContent(this.$editors);
 					this.modal.show();
 				}
-
+				var addCss = this.protCss || '';
 				this.htmlEditor.setContent( this.cm.getCode(this.components, 'html') );
-				this.cssEditor.setContent( this.cm.getCode(this.components, 'css', this.cssc));
+				this.cssEditor.setContent( addCss + this.cm.getCode(this.components, 'css', this.cssc));
 
 				if(this.sender)
 					this.sender.set('active',false);

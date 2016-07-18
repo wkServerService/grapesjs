@@ -1,14 +1,17 @@
-define(['backbone', './AssetView', './AssetImageView', './FileUploader'],
-	function (Backbone, AssetView, AssetImageView, FileUploader) {
+define(['backbone', './AssetView', './AssetImageView', './FileUploader', 'text!./../template/assets.html'],
+	function (Backbone, AssetView, AssetImageView, FileUploader, assetsTemplate) {
 	/**
 	 * @class AssetsView
 	 * */
 	return Backbone.View.extend({
 
+		template: _.template(assetsTemplate),
+
 		initialize: function(o) {
-			this.options 	= o;
-			this.config		= o.config;
-			this.pfx		= this.config.stylePrefix;
+			this.options = o;
+			this.config = o.config;
+			this.pfx = this.config.stylePrefix || '';
+			this.ppfx = this.config.pStylePrefix || '';
 			this.listenTo( this.collection, 'add', this.addToAsset );
 			this.listenTo( this.collection, 'deselectAll', this.deselectAll );
 			this.className	= this.pfx + 'assets';
@@ -16,7 +19,7 @@ define(['backbone', './AssetView', './AssetImageView', './FileUploader'],
 			// Check if storage is required and if Storage Manager is available
 			if(this.config.stm && this.config.storageType !== ''){
 				var type		= this.config.storageType;
-				this.provider	= this.config.stm.getProvider(type);
+				this.provider	= this.config.stm.get(type);
 				this.storeName	= this.config.storageName ? this.config.storageName : this.className;
 				if(this.provider){
 					// Create new instance of provider
@@ -29,6 +32,54 @@ define(['backbone', './AssetView', './AssetImageView', './FileUploader'],
 					}
 				}
 			}
+
+			this.events = {};
+			this.events.submit = 'addFromStr';
+			this.delegateEvents();
+		},
+
+		/**
+		 * Add new asset to the collection via string
+		 * @param {Event} e Event object
+		 * @return {this}
+		 */
+		addFromStr: function(e){
+			e.preventDefault();
+
+			var input = this.getInputUrl();
+
+			var url = input.value.trim();
+
+			if(!url)
+				return;
+
+			this.collection.addImg(url, {at: 0});
+
+			this.getAssetsEl().scrollTop = 0;
+			input.value = '';
+			return this;
+		},
+
+		/**
+		 * Returns assets element
+		 * @return {HTMLElement}
+		 * @private
+		 */
+		getAssetsEl: function(){
+			//if(!this.assets) // Not able to cache as after the rerender it losses the ref
+			this.assets = this.el.querySelector('.' + this.pfx + 'assets');
+			return this.assets;
+		},
+
+		/**
+		 * Returns input url element
+		 * @return {HTMLElement}
+		 * @private
+		 */
+		getInputUrl: function(){
+			if(!this.inputUrl || !this.inputUrl.value)
+				this.inputUrl = this.el.querySelector('.'+this.pfx+'add-asset input');
+			return this.inputUrl;
 		},
 
 		/**
@@ -90,7 +141,8 @@ define(['backbone', './AssetView', './AssetImageView', './FileUploader'],
 			if(fragment){
 				fragment.appendChild( rendered );
 			}else{
-				this.$el.prepend(rendered);
+				var assetsEl = this.getAssetsEl();
+				assetsEl.insertBefore(rendered, assetsEl.firstChild);
 			}
 
 			return rendered;
@@ -113,9 +165,12 @@ define(['backbone', './AssetView', './AssetImageView', './FileUploader'],
 				this.addAsset(model, fragment);
 			},this);
 
-			this.$el.append(fragment);
-			this.$el.attr('class', this.className);
+			this.$el.html(this.template({
+				pfx:	this.pfx,
+				ppfx: this.ppfx,
+			}));
 
+			this.$el.find('.'+this.pfx + 'assets').append(fragment);
 			return this;
 		}
 	});

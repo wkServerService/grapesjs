@@ -3,11 +3,10 @@
  * * [add](#add)
  * * [get](#get)
  *
- * This module manages commands which could be called mainly by buttons.
  * You can init the editor with all necessary commands via configuration
  *
  * ```js
- * var editor = new GrapesJS({
+ * var editor = grapesjs.init({
  * 	...
  *  commands: {...} // Check below for the properties
  * 	...
@@ -17,27 +16,21 @@
  * Before using methods you should get first the module from the editor instance, in this way:
  *
  * ```js
- * var commandsService = editor.get('Commands');
+ * var commands = editor.Commands;
  * ```
  *
  * @module Commands
  * @param {Object} config Configurations
  * @param {Array<Object>} [config.defaults=[]] Array of possible commands
- * @param {Boolean} [config.firstCentered=true] If true will center new first-level components
- * @param {number} [config.minComponentH=50] Minimum height (in px) for new inserted components
- * @param {number} [config.minComponentW=50] Minimum width (in px) for new inserted components
  * @example
  * ...
  * commands: {
- *  firstCentered: true,
- *  minComponentH: 100,
- *  minComponentW: 100,
  * 	defaults: [{
  * 		id: 'helloWorld',
- * 		run:  function(serviceManager, senderBtn){
+ * 		run:  function(editor, sender){
  * 			alert('Hello world!');
  * 		},
- * 		stop:  function(serviceManager, senderBtn){
+ * 		stop:  function(editor, sender){
  * 			alert('Stop!');
  * 		},
  * 	}],
@@ -88,7 +81,9 @@ define(function(require) {
 		defaultCommands['open-layers'] = require('./view/OpenLayers');
 		defaultCommands['open-sm'] = require('./view/OpenStyleManager');
 		//this.defaultCommands['resize-comp'] 	= require('./view/ResizeComponent');
-		config.model = config.em.get('Canvas');
+
+		if(config.em)
+			config.model = config.em.get('Canvas');
 
 		return {
 
@@ -98,11 +93,11 @@ define(function(require) {
 			 * @param	{Object} command Object representing you command. Methods `run` and `stop` are required
 			 * @return {this}
 			 * @example
-			 * commandsService.add('myCommand', {
-			 * 	run:  function(serviceManager, senderBtn){
+			 * commands.add('myCommand', {
+			 * 	run:  function(editor, sender){
 			 * 		alert('Hello world!');
 			 * 	},
-			 * 	stop:  function(serviceManager, senderBtn){
+			 * 	stop:  function(editor, sender){
 			 * 	},
 			 * });
 			 * */
@@ -113,7 +108,7 @@ define(function(require) {
 			 * @param	{string}	id Command's ID
 			 * @return {Object} Object representing the command
 			 * @example
-			 * var myCommand = commandsService.get('myCommand');
+			 * var myCommand = commands.get('myCommand');
 			 * myCommand.run();
 			 * */
 			get: function(id){

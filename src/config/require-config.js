@@ -33,10 +33,13 @@ require.config({
 	},
 
 	packages : 	[
+								{  name: 'GrapesJS', 				location: 'grapesjs', 				},
+								{  name: 'Editor', 					location: 'editor', 					},
 		            {  name: 'AssetManager', 		location: 'asset_manager', 		},
 		            {  name: 'StyleManager', 		location: 'style_manager', 		},
 		            {  name: 'ClassManager', 		location: 'class_manager', 		},
 		            {  name: 'StorageManager', 	location: 'storage_manager', 	},
+		            {  name: 'PluginManager',		location: 'plugin_manager',		},
 		            {  name: 'Navigator', 			location: 'navigator', 				},
 		            {  name: 'DomComponents', 	location: 'dom_components', 	},
 		            {  name: 'RichTextEditor', 	location: 'rich_text_editor', },
@@ -45,6 +48,8 @@ require.config({
 		            {  name: 'CssComposer',			location: 'css_composer',			},
 		            {  name: 'Commands',				location: 'commands',					},
 		            {  name: 'Canvas',					location: 'canvas',						},
-		            {  name: 'Panels',					location: 'panels',						}
+		            {  name: 'Panels',					location: 'panels',						},
+		            {  name: 'Parser',					location: 'parser',						},
+		            {  name: 'Utils', 					location: 'utils', 						}
 	]
 });

@@ -54,7 +54,6 @@ define(['./AssetView','text!./../template/assetImage.html'],
 			var target			= this.model.collection.target;
 			if(target && target.set){
 				var attr		= _.clone( target.get('attributes') );
-				attr['class'] 	= [];
 				target.set('attributes', attr );
 				target.set('src', v );
 			}
@@ -81,7 +80,8 @@ define(['./AssetView','text!./../template/assetImage.html'],
 				name: 	name,
 				src: 	this.model.get('src'),
 				dim:	dim,
-				pfx:	this.pfx
+				pfx:	this.pfx,
+				ppfx:	this.ppfx
 			}));
 			this.$el.attr('class', this.className);
 			return this;

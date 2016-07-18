@@ -41,6 +41,7 @@ define(['jquery'],
         document.execCommand(command, 0, args);
         updateToolbar();
       },
+      /*
       bindHotkeys = function (hotKeys) {
         $.each(hotKeys, function (hotkey, command) {
           editor.keydown(hotkey, function (e) {
@@ -57,6 +58,7 @@ define(['jquery'],
           });
         });
       },
+      */
       getCurrentRange = function () {
         var sel = window.getSelection();
         if (sel.getRangeAt && sel.rangeCount) {
@@ -102,10 +104,10 @@ define(['jquery'],
         input.data(options.selectionMarker, color);
       },
       bindToolbar = function (toolbar, options) {
-        toolbar.find(toolbarBtnSelector).click(function () {
+        toolbar.find(toolbarBtnSelector).unbind().click(function () {
           restoreSelection();
           editor.focus();
-          execCommand($(this).data(options.commandRole));
+          editor.get(0).ownerDocument.execCommand($(this).data(options.commandRole));
           saveSelection();
         });
         toolbar.find('[data-toggle=dropdown]').click(restoreSelection);
@@ -160,13 +162,12 @@ define(['jquery'],
     }
     options = $.extend({}, $.fn.wysiwyg.defaults, userOptions);
     toolbarBtnSelector = 'a[data-' + options.commandRole + '],button[data-' + options.commandRole + '],input[type=button][data-' + options.commandRole + ']';
-    bindHotkeys(options.hotKeys);
+    //bindHotkeys(options.hotKeys);
     if (options.dragAndDropImages) {
       initFileDrops();
     }
     bindToolbar($(options.toolbarSelector), options);
-    editor.attr('contenteditable', true)
-      .on('mouseup keyup mouseout', function () {
+    editor.attr('contenteditable', true).on('mouseup keyup mouseout', function () {
         saveSelection();
         updateToolbar();
       });

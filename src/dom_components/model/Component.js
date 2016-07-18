@@ -1,8 +1,6 @@
 define(['backbone','./Components', 'ClassManager/model/ClassTags'],
 	function (Backbone, Components, ClassTags) {
-		/**
-		 * @class Component
-		 * */
+
 		return Backbone.Model.extend({
 
 			defaults: {
@@ -10,11 +8,12 @@ define(['backbone','./Components', 'ClassManager/model/ClassTags'],
 				type: '',
 				editable: false,
 				removable: true,
-				movable: true,
+				draggable: true,
 				droppable: true,
 				badgable: true,
 				stylable: true,
 				copyable: true,
+				void: false,
 				state: '',
 				status: '',
 				previousModel: '',
@@ -24,6 +23,10 @@ define(['backbone','./Components', 'ClassManager/model/ClassTags'],
 			},
 
 			initialize: function(o, opt) {
+				// Check void elements
+				if(opt && opt.config && opt.config.voidElements.indexOf(this.get('tagName')) >= 0)
+					this.set('void', true);
+
 				this.sm = opt ? opt.sm || {} : {};
 				this.config 	= o || {};
 				this.defaultC = this.config.components || [];
@@ -36,8 +39,8 @@ define(['backbone','./Components', 'ClassManager/model/ClassTags'],
 			/**
 			 * Normalize input classes from array to array of objects
 			 * @param {Array} arr
-			 *
 			 * @return {Array}
+			 * @private
 			 */
 			normalizeClasses: function(arr){
 				var res = [];
@@ -65,6 +68,7 @@ define(['backbone','./Components', 'ClassManager/model/ClassTags'],
 
 			/**
 			 * Override original clone method
+			 * @private
 			 */
 	    clone: function()
 	    {
@@ -91,12 +95,16 @@ define(['backbone','./Components', 'ClassManager/model/ClassTags'],
 			 * Get name of the component
 			 *
 			 * @return {String}
+			 * @private
 			 * */
 			getName: function(){
 				if(!this.name){
-					var id		= this.cid.replace(/\D/g,''),
-						type	= this.get('type');
-					this.name 	= type.charAt(0).toUpperCase() + type.slice(1) + 'Box' + id;
+					var id = this.cid.replace(/\D/g,''),
+						type = this.get('type');
+					var tag = this.get('tagName');
+					tag = tag == 'div' ? 'box' : tag;
+					tag = type ? type : tag;
+					this.name 	= tag.charAt(0).toUpperCase() + tag.slice(1) + ' ' + id;
 				}
 				return this.name;
 			},

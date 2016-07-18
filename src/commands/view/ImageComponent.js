@@ -13,16 +13,13 @@ define(['backbone', './InsertCustom'],
 			 *
 			 * */
 			beforeInsert: function(object){
-				object.type 			= 'image';
-				object.style			= {};
+				object.type = 'image';
+				object.style = {};
 				object.attributes = {};
-				if (!this.nearToFloat()) {
-					object.style.display	= 'block';
-				}
-				// This allow to avoid 'ghosts' on drag
 				object.attributes.onmousedown = 'return false';
-				if (this.config.firstCentered && (this.$wp.get(0) == this.posTargetEl.get(0)) ) {
-					object.style.margin 	= '0 auto';
+				if (this.config.firstCentered &&
+					 (this.$wrapper.get(0) == this.sorter.target) ) {
+					object.style.margin = '0 auto';
 				}
 			},
 

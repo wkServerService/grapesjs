@@ -16,6 +16,13 @@ require(['../src/config/require-config.js', 'config/config.js'], function() {
 	         'specs/css_composer/main.js',
 	         'specs/code_manager/main.js',
 	         'specs/panels/main.js',
+	         'specs/commands/main.js',
+	         'specs/style_manager/main.js',
+	         'specs/storage_manager/main.js',
+	         'specs/plugin_manager/main.js',
+	         'specs/parser/main.js',
+	         'specs/grapesjs/main.js',
+	         'specs/utils/main.js'
 	     ], function(chai)
 	     {
 				var should 	= chai.should(),

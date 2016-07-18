@@ -23,6 +23,8 @@ $colorBlue:		#3b97e3;
 $colorRed: 		#DD3636;
 $colorYell:		#ffca6f;
 $colorGreen:	#62c462;
+$tagBg: #804f7b;
+$secColor: $tagBg;
 
 $imageCompDim:	50px;
 
@@ -47,9 +49,13 @@ $imageCompDim:	50px;
 	appearance: $v;
 }
 
-.#{$app-prefix}invis-invis{
+.#{$app-prefix}invis-invis, .#{$app-prefix}no-app{
 	background-color: transparent;
 	border: none;
+	color:inherit;
+}
+.#{$app-prefix}no-app{
+	height: 10px;
 }
 
 .#{$app-prefix}test {
@@ -63,48 +69,119 @@ $imageCompDim:	50px;
 .opac50{
 	@include opacity(0.50);
 }
-.checker-bg{
+.#{$app-prefix}checker-bg, .checker-bg{
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==");
 }
 
 /********************* MAIN ************************/
-body{
-	background-color:	$fontColor;
-	font-family: 		$mainFont;
-	margin: 0;
-}
-html,body,#wte-app, .#{$app-prefix}editor{ height: 100%; }
 .clear{ clear:both }
 .no-select{
  	@include user-select(none);
 }
-#wte-app{
-	height: 100%;
-	min-width: 1250px;
-}
 .#{$app-prefix}editor{
+	font-family: $mainFont;
+	background-color: $mainColor;
 	position:relative;
 	border: 3px solid $mainColor;
 	border-left:none;
 	border-right:none;
 	box-sizing: border-box;
+	height: 100%;
+	min-width: 1250px;
+}
+.#{$app-prefix}freezed{
+  @include opacity(0.50);
+  pointer-events: none;
+}
+
+.#{$app-prefix}btn-prim{
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  padding: 3px 6px;
+  cursor: pointer;
+  color: #ddd;
+  padding: 0.5em;
+  border: none;
+}
+.#{$app-prefix}btn-prim:active{
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.#{$app-prefix}input{
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+  color: $fontColor;
+  padding: 0.5em 1em;
 }
 /*************  CANVAS  ****************/
 .#{$cv-prefix}canvas {
+  background-color: rgba(0, 0, 0, 0.15);
   position: absolute;
   width: 80%;
   height: 100%;
   top: 0; left: 3.5%;
-  overflow: auto;
+  overflow: hidden;
   z-index:1;
 
-  	> div {
+  > iframe {
+    background-color: #fff;
+    height: 100%;
+    outline: medium none;
+    width: 100%;
+    border: none;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .#{$app-prefix}ghost{
+    display: none;
+    pointer-events: none;
+    background-color: #5b5b5b;
+    border: 2px dashed #ccc;
+    position: absolute;
+    z-index: 10;
+    @include opacity(0.55);
+  }
+
+  .#{$app-prefix}highlighter, .#{$app-prefix}highlighter-sel{
+    position: absolute;
+    outline: 1px solid $colorBlue;
+    pointer-events: none;
+  }
+
+  .#{$app-prefix}highlighter-warning{
+    outline: 3px solid $colorYell;
+  }
+
+  .#{$app-prefix}highlighter-sel{
+    outline: 3px solid $colorBlue;
+  }
+
+  ##{$app-prefix}tools{
+    width: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    outline: none;
+  }
+
+  	/* This simulate body behaviour */
+  	> div:first-child {
+  		background-color: #fff;
+  		position: relative;
 	    height: 100%;
 	    overflow: auto;
 	    width: 100%;
 	}
 }
+
 .#{$cv-prefix}canvas *{box-sizing: border-box;}
+
+.#{$app-prefix}frame{
+  transition: width 0.35s linear;
+}
 
 .btn-cl {
   font-size: 25px;
@@ -149,7 +226,7 @@ ol.example li.placeholder:before {position: absolute;}
 
 /********* COMMANDS **********/
 
-.#{$com-prefix}dashed div {
+.#{$com-prefix}dashed *{
 	outline: 1px dashed #888;
 	outline-offset: -2px;
   	box-sizing: border-box;
@@ -172,30 +249,42 @@ ol.example li.placeholder:before {position: absolute;}
 *.#{$com-prefix}hover-move, div.#{$com-prefix}hover-move{
 	outline: 3px solid $colorYell;
 }
-.#{$com-prefix}badge{
+.#{$com-prefix}badge, .#{$app-prefix}badge{
 	pointer-events: none;
 	background-color: $colorBlue;
 	color: #fff;
 	padding: 2px 5px;
 	position: absolute; z-index: 1;
 	font-size: 12px;
+  outline: none;
+  display: none;
 }
 .#{$com-prefix}badge-red{
 	@extend .#{$com-prefix}badge;
 	background-color: $colorRed;
 }
-.#{$com-prefix}badge-yellow{
-	@extend .#{$com-prefix}badge;
+.#{$app-prefix}badge-warning{
 	background-color: $colorYell;
 }
-.#{$com-prefix}placeholder{
+.#{$app-prefix}placeholder, .#{$com-prefix}placeholder{
 	position: absolute;
+	z-index: 10;
+  pointer-events: none;
+  display: none;
 }
-.#{$com-prefix}placeholder-int{
+.#{$app-prefix}placeholder{
+  /*border-width: 3px !important;*/
+  border-style: solid !important;
+  border-color: $colorGreen;
+  outline: none;
+}
+.#{$app-prefix}placeholder-int, .#{$com-prefix}placeholder-int{
 	background-color: $colorGreen;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 	height: 100%; width: 100%;
 	pointer-events: 'none';
-	padding: 2px;
+	padding: 1.5px;
+  outline: none;
 }
 
 /********* PANELS **********/
@@ -215,10 +304,13 @@ $leftWidth: 16.5%;
   	min-width: 35px;
     height: 100%;
     width: 3.5%; left:0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
 
   &##{$pn-prefix}options{
-  	@extend ##{$pn-prefix}commands;
+  	min-width: 35px;
+    height: 100%;
+    width: 3.5%; left:0;
   	bottom: 0;
   	height: auto;
   }
@@ -236,7 +328,7 @@ $leftWidth: 16.5%;
   }
 
   &##{$pn-prefix}views{
-  	border-bottom: 2px solid darken($mainColor, 3%);
+  	border-bottom: 2px solid rgba(0,0,0,0.3);
   	right: 0;
   	width: $leftWidth;
   	z-index: 4;
@@ -248,10 +340,11 @@ $leftWidth: 16.5%;
     right: 0;
     width: $leftWidth;
     overflow: auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   }
 }
 
-.#{$pn-prefix}btn{
+.#{$pn-prefix}btn, .#{$app-prefix}btnt{
 	box-sizing: border-box;
 	height: 35px; width: 35px;
 	line-height: 35px;
@@ -266,8 +359,8 @@ $leftWidth: 16.5%;
 	position: relative;
 
 	&.#{$pn-prefix}active{
-		background-color: $mainDkColor;
-    	box-shadow: 0 0 3px darken($mainDkColor,5%) inset;
+		background-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25) inset;
 	}
 
 	> .#{$pn-prefix}arrow-rd {
@@ -323,7 +416,7 @@ $leftWidth: 16.5%;
 		font-weight: lighter;
 		text-align: left;
 		position: relative;
-		background-color: rgba(0, 0, 0, 0.3);
+		background-color: rgba(0, 0, 0, 0.2);
 	}
 	.#{$nv-prefix}item.#{$nv-prefix}hide {
 	  @include opacity(0.55);
@@ -391,28 +484,20 @@ $leftWidth: 16.5%;
 
 /* pa-refresh pa-rocket pa-trash pa-columns pa-rotate-left/right */
 .btn.expand{ background-image: none;}
-.tempComp{
-	background-color: #5b5b5b;
-	border: 2px dashed #ccc;
-	outline:none !important;
-	position: absolute; z-index: 55;
-	opacity:0.55;
-	filter: alpha(opacity=55);
-}
 
 /***********  Components *************/
 
 .#{$comp-prefix}image-placeholder {
 	display:	block;
-  	background-color: #f5f5f5;
-  	color: 	$fontColorDk;
-  	height: $imageCompDim; width: $imageCompDim;
-  	line-height: $imageCompDim;
-  	outline: 3px solid $colorYell;
-  	outline-offset: -3px;
-  	text-align: center;
-  	font-size: $imageCompDim/3;
-  	cursor: pointer;
+	background-color: #f5f5f5;
+	color: 	$fontColorDk;
+	height: $imageCompDim; width: $imageCompDim;
+	line-height: $imageCompDim;
+	outline: 3px solid $colorYell;
+	outline-offset: -3px;
+	text-align: center;
+	font-size: $imageCompDim/3;
+	cursor: pointer;
 
   	&.fa-picture-o::after{
 		content:  "\f03e";
@@ -423,9 +508,9 @@ $leftWidth: 16.5%;
 
 /********* Style Manager **********/
 
-$darkBorder:		darken($mainDkColor,4%); /*303030*/
-$lightBorder:		lighten($mainDkColor,3%); /*414141*/
-$darkTextShadow:	darken($mainDkColor,8%); /*#252525*/
+$darkBorder:		rgba(0, 0, 0, 0.15); /*303030*/
+$lightBorder:		rgba(255, 255, 255, 0.05); /*414141*/
+$darkTextShadow:	rgba(0, 0, 0, 0.3); /*#252525*/
 $inputFontColor:	darken($fontColor,10%); /*#d5d5d5*/
 $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 
@@ -460,7 +545,7 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 	}
 
 	.#{$sm-prefix}title{
-	  background-color: $mainDkColor;
+	  background-color: $darkBorder;
 	  font-size: 13px;
 	  letter-spacing: 1px;
 	  padding: 12px 10px 12px 20px;
@@ -533,10 +618,10 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 		}
 		.#{$sm-prefix}d-s-arrow, .#{$clm-prefix}d-s-arrow{ bottom: 7px; }
 
-	 	&.#{$sm-prefix}integer, &.#{$sm-prefix}select, &.#{$sm-prefix}list, &.#{$sm-prefix}color, &.#{$sm-prefix}composite {
-		  background-color: darken($mainDkColor, 2.5%);/*353535*/
-		  border: 1px solid darken($mainDkColor, 6.5%);/*292929*/
-		  box-shadow: 1px 1px 0 lighten($mainDkColor, 11.5%);/*575757*/
+	 	&.#{$sm-prefix}integer, &.#{$sm-prefix}select, &.#{$sm-prefix}list, &.#{$sm-prefix}color, &.#{$sm-prefix}composite, &.#{$sm-prefix}input {
+		  background-color: rgba(0, 0, 0, 0.3);/*353535*/
+		  border: 1px solid rgba(0, 0, 0, 0.1);/*292929*/
+		  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1);/*575757*/
 		  color: $inputFontColor;
 		  border-radius: 2px;
 		  box-sizing: border-box;
@@ -546,8 +631,8 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 		&.#{$sm-prefix}select select{ height: 20px; }
 		&.#{$sm-prefix}select option { margin: 5px 0;}
 		&.#{$sm-prefix}composite{
-			background-color: transparent;
-			border: 1px solid darken($mainDkColor, 2.5%);
+			background-color: rgba(0,0,0,0.1);
+			border: 1px solid rgba(0, 0, 0, 0.25);
 		}
 		&.#{$sm-prefix}list{
 			width:auto;
@@ -558,7 +643,7 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 			input{ display:none; }
 			label{ cursor:pointer; padding: 5px; display:block;}
 			.#{$sm-prefix}radio:checked + label{
-				background-color: lighten($mainDkColor, 13%);/*5b5b5b*/
+				background-color: rgba(255, 255, 255, 0.2);/*5b5b5b*/
 			}
 			.#{$sm-prefix}icon{
 				background-repeat: no-repeat;
@@ -644,18 +729,18 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 		}
 
 		.#{$sm-prefix}layers {
-		  background-color: $mainDkColor;
-		  border: 1px solid darken($mainDkColor, 2.5%);
-		  box-shadow: 1px 1px 0 lighten($mainDkColor, 11.5%);
+		  background-color: rgba(0,0,0,0.13);
+		  border: 1px solid rgba(0,0,0,0.13);
+		  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1);
 		  border-radius: 2px;
 		  margin-top: 5px;
 		  min-height: 30px;
 		}
 
 		.#{$sm-prefix}layer {
-		  background-color: lighten($mainDkColor, 4.5%);
+		  background-color: rgba(255, 255, 255, 0.055);
 		  border-radius: 2px;
-		  box-shadow: 1px 1px 0 darken($mainDkColor, 2.5%), 1px 1px 0 lighten($mainDkColor, 9%) inset;
+		  box-shadow: 1px 1px 0 rgba(0,0,0,0.2), 1px 1px 0 rgba(255, 255, 255, 0.055) inset;
 		  margin: 2px;
 		  padding: 7px;
 		  position: relative;
@@ -680,6 +765,10 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 				right: 5px;
 				top: 0;
 				@include opacity(0.2);
+
+				&:hover{
+					@include opacity(0.5);
+				}
 			}
 		  	> ##{$sm-prefix}preview-box ##{$sm-prefix}preview {
 			  background-color: white;
@@ -688,7 +777,7 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 			  background-size: cover !important;
 			}
 			&.#{$sm-prefix}active {
-			  background-color: lighten($mainDkColor, 7%);
+			  background-color: rgba(255, 255, 255, 0.12);
 			}
 			&.#{$sm-prefix}no-preview ##{$sm-prefix}preview-box{
 				display:none;
@@ -740,12 +829,22 @@ $arrowColor:		darken($fontColor,24%); /*b1b1b1*/
 	.#{$sm-prefix}btn-upload ##{$sm-prefix}label { padding: 2px 0;}
 
 }
+.#{$sm-prefix}layer > ##{$sm-prefix}move {
+	@include opacity(0.3);
+	cursor: move;
+  font-size: 12px;
+  float: left;
+  margin: 0 5px 0 0;
+
+  &:hover{
+  	@include opacity(0.5);
+  }
+}
 /********* END Style Manager **********/
 
 /********* Class manager **********/
 $addBtnBg: lighten($mainDkColor, 10%);
 $paddElClm: 5px 6px;
-$tagBg: #804f7b;
 
 .#{$clm-prefix}field{
 		@extend .#{$sm-prefix}field
@@ -759,10 +858,14 @@ $tagBg: #804f7b;
 	font-size: 11px;
 	padding: 10px 5px;
 
-	##{$clm-prefix}label{
+	##{$clm-prefix}label, ##{$clm-prefix}sel{
 		padding: 7px 0;
 		float:left;
 	}
+  ##{$clm-prefix}sel{
+    font-style: italic;
+    margin-left: 5px;
+  }
 	##{$clm-prefix}status-c{
 		float:right;
 	}
@@ -779,11 +882,11 @@ $tagBg: #804f7b;
 	}
 
 	##{$clm-prefix}add-tag{
-		background-color: $addBtnBg;
+		background-color: rgba(255, 255, 255, 0.2);
 		border-radius: 2px;
     padding: $paddElClm;
-    box-shadow: 1px 1px 0 lighten($addBtnBg, 10%) inset;
-    border: 1px solid darken($addBtnBg, 13%);
+    box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2) inset;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     cursor: pointer;
 	}
 
@@ -822,7 +925,7 @@ $tagBg: #804f7b;
 	}
 
 	##{$clm-prefix}tag-label {
-		cursor: pointer;
+		cursor: text;
 		@extend  .no-select;
 	}
 }
@@ -839,6 +942,7 @@ $tagBg: #804f7b;
 }
 
 .#{$mdl-prefix}container {
+		font-family: $mainFont;
   	position: absolute;
   	top: 0; z-index: 10;
   	width:100%; height:100%;
@@ -878,8 +982,27 @@ $tagBg: #804f7b;
 }
 
 /********* Assets Manager **********/
+.#{$am-prefix}assets{
+  height: 290px;
+  overflow: auto;
+  clear: both;
+}
 
-.#{$am-prefix}assets {
+.#{$am-prefix}assets-header{
+  padding: 5px;
+}
+
+.#{$am-prefix}add-asset{
+  input{
+    width: 70%;
+  }
+  button{
+    width: 25%;
+    float: right;
+  }
+}
+
+.#{$am-prefix}assets-cont {
   background-color: $mainDkColor;
   border-radius: 3px;
   box-sizing: border-box;
@@ -887,26 +1010,45 @@ $tagBg: #804f7b;
   width: 45%;
   float:right;
   height: 325px;
-  overflow: auto;
+  overflow: hidden;
 
-  	.#{$am-prefix}highlight { background-color: $mainColor; }
+  ##{$am-prefix}preview-cont{
+    position: relative;
+    height: 70px; width: 30%;
+    background-color: $mainColor;
+    border-radius: 2px;
+    float: left;
+    overflow: hidden;
+  }
 
-  	.#{$am-prefix}asset {
+  ##{$am-prefix}preview{
+    position: absolute;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+
+  ##{$am-prefix}preview-bg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    @include opacity(0.5);
+    z-index: 0;
+  }
+
+  .#{$am-prefix}highlight { background-color: $mainColor; }
+
+  .#{$am-prefix}asset {
 	  border-bottom: 1px solid darken($mainDkColor, 3%);
 	  padding: 5px;
 	  cursor:pointer;
 	  position: relative;
-	  	&:hover ##{$am-prefix}close { display: block;}
 
-	  	##{$am-prefix}preview{
-			height: 70px; width: 30%;
-			background-position: center center;
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-color: $mainColor;
-			border-radius: 2px;
-		    float: left;
-		}
+    &:hover ##{$am-prefix}close { display: block;}
+
 	}
 	##{$am-prefix}close {
 		@extend .btn-cl;
@@ -1012,15 +1154,17 @@ $uploadPadding:	150px 10px;
   position: absolute;
   border-radius: 3px;
   overflow: hidden;
+  display: none;
   z-index: 5;
 
   .#{$rte-prefix}btn {
-  		color: $fontColor;
+  	color: $fontColor;
 		padding: 5px;
 		width:	25px;
 		border-right: 1px solid #353535;
 		text-align: center;
 		cursor: pointer;
+		outline: none;
 
 	  	&:last-child{ border-right:none; }
 	  	&.btn-info{ background-color: darken($mainDkColor,3%); }
